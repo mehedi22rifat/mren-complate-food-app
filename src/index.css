@@ -8,3 +8,7 @@
 body{
     font-family: "Inter", sans-serif;
 }
+
+.active{
+    color: rgb(18, 238, 18);
+}

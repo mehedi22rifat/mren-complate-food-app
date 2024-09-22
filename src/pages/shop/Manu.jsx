@@ -1,33 +1,74 @@
 import React, { useEffect, useState } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { Tab, Tabs, TabList } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import ShopCard from "./ShopCard";
 
 const Manu = () => {
+  const [menu, setMenu] = useState([]);
+  const [filterCetagoryItem, setFilterCetagoryItem] = useState([]);
+  const [selectCategory, setSlectCategory] = useState("all");
+  const [shortOptions, setShortOptions] = useState("defult");
 
-    const [menu,stManu] = useState([])
-    const [filterItem,setFilterItem] = useState([])
-    const [selectSetCategory,setSlectCategory] = useState('all')
-    const [shortOptions,setShortOptions] = useState('defult')
- 
+  // data loading
+  useEffect(() => {
+    //  data loading from backEnd
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/menu.json");
+        const data = await response.json();
+        // console.log(data);
+        setMenu(data);
+        setFilterCetagoryItem(data);
+      } catch (error) {
+        console.log("Error fetching data", error);
+      }
+    };
+    //  call the function
+    fetchData();
+  }, []);
 
-    // data loading
-          useEffect(() =>{
-            //  data loading from backEnd
-            const fetchData = async() =>{
+  //   filter by cetagory
+  const filterItem = (category) => {
+    const filtered =
+      category === "all"
+        ? menu
+        : menu.filter((item) => item.category === category);
 
-                try{
-                    const response = await fetch('/menu.json');
-                    const data = await response.json();
-                    console.log(data)
-                }
-                catch(error){
-                    console.log('Error fetching data',error)
-                }
-            }
-            //  call the function
-             fetchData();
-          },[])
+    setFilterCetagoryItem(filtered);
+    setSlectCategory(category);
+  };
 
+  //   show all data function
+  const showAll = () => {
+    setFilterCetagoryItem(menu);
+    setSlectCategory("all");
+  };
+
+  //  shorted data
+  const handleShortingChange = (option) => {
+    setShortOptions(option);
+    let shortedItem = [...filterItem];
+
+    // logic
+    switch (option) {
+      case "A-Z":
+        shortedItem.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "Z-A":
+        shortedItem.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case "low-to-high":
+        shortedItem.sort((a, b) => a.price - b.price);
+        break;
+      case "high-to-low":
+        shortedItem.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+
+    setFilterCetagoryItem(shortedItem);
+  };
 
   return (
     <div className="">
@@ -51,35 +92,35 @@ const Manu = () => {
       </div>
 
       {/* container */}
-      <div className="secetion-container">
+      <div className="secetion-container flex flex-col md:flex-row md:space-x-40">
         {/* react tab */}
+        <div className="w-full md:flex-1 py-8">
+          <Tabs>
+            <TabList>
+              <Tab onClick={showAll}
+              >All</Tab>
+              <Tab
+              onClick={() => filterItem("salad")}>Salad</Tab>
+              <Tab
+              onClick={() => filterItem("pizza")}>Pizza</Tab>
+              <Tab
+              onClick={() => filterItem("soup")}>Soups</Tab>
+              <Tab
+              onClick={() => filterItem("dessert")}>Desserts</Tab>
+              <Tab
+              onClick={() => filterItem("drinks")}>Drinks</Tab>
+            </TabList>
+          </Tabs>
+        </div>
+        <div  className=" py-8">
+            <input className="border" type="text" />
+        </div>
+      </div>
 
-        <Tabs>
-          <TabList>
-            <Tab>Title 1</Tab>
-            <Tab>Title 2</Tab>
-            <Tab>Title 2</Tab>
-            <Tab>Title 2</Tab>
-            <Tab>Title 2</Tab>
-
-          </TabList>
-
-          <TabPanel>
-            <h2>Any content 1</h2>
-          </TabPanel>
-          <TabPanel>
-            <h2>Any content 2</h2>
-          </TabPanel> 
-          <TabPanel>
-            <h2>Any content 2</h2>
-          </TabPanel> 
-          <TabPanel>
-            <h2>Any content 2</h2>
-          </TabPanel> 
-          <TabPanel>
-            <h2>Any content 2</h2>
-          </TabPanel>
-        </Tabs>
+      <div className="grid secetion-container grid-cols-1 lg:grid-cols-4 md:grid-cols-4 gap-4">
+        {filterCetagoryItem.map((item, index) => (
+          <ShopCard key={index} item={item} />
+        ))}
       </div>
     </div>
   );
