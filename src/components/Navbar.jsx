@@ -6,21 +6,21 @@ const Navbar = () => {
     const [stacky,setStacky] = useState(false)
     
     
-    // // handle scroll function
-    // useEffect(() =>{
-    //   const handleScroll =() =>{
-    //     const offset = window.scrollY;
-    //   if(offset >0){
-    //     setStacky(true)
-    //   }
-    //   else{
-    //     setStacky(false)
-    //   }
-    //   }
-    //  return () => {
-    //   window.addEventListener("scroll",handleScroll)
-    //  }
-    // },[])
+    // handle scroll function
+    useEffect(() =>{
+      const handleScroll =() =>{
+        const offset = window.scrollY;
+      if(offset >0){
+        setStacky(true)
+      }
+      else{
+        setStacky(false)
+      }
+      }
+     return () => {
+      window.addEventListener("scroll",handleScroll)
+     }
+    },[])
 
 
   const navItem = (
