@@ -112,7 +112,7 @@ const simplePrevArror = (props) =>{
             <FaAngleLeft className='text-xl'/>
           </button>
           <button
-           className='btn p-2 rounded-full ml-5'
+           className='btn p-2 rounded-full ml-5 bg-green'
             onClick={() => slider?.current?.slickNext()}
           >
             <FaAngleRight className='text-xl'/>
