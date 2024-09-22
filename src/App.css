@@ -6,3 +6,15 @@
 .secetion-container{
     @apply max-w-screen-2xl container mx-auto lg:px-24 px-4;
 }
+
+header{
+    z-index: 10001 !important;
+}
+
+.subtitle{
+    @apply text-lg uppercase font-medium tracking-wide text-rose-500
+}
+
+.title{
+    @apply text-4xl md:text-5xl font-bold my-2 leading-snug md:leading-snug
+}

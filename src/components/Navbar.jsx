@@ -67,8 +67,8 @@ const Navbar = () => {
   );
 
   return (
-    <header className="max-w-screen-2xl container mx-auto">
-      <div className="navbar lg:px-24 bg-base-100">
+    <header className="max-w-screen-2xl fixed top-0 left-0 right-0 container mx-auto transition-all duration-300 ease-in-out">
+      <div className={`navbar lg:px-24 ${stacky ? 'shadow-xl bg-base-100 transition-all duration-300 ease-in-out ':''}`}>
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
