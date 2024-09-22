@@ -8,7 +8,9 @@ export const Main = () => {
   return (
     <div>
         <Navbar/>
-        <Outlet></Outlet>
+        <div className=''>
+         <Outlet></Outlet>
+        </div>
         <Footer/>
     </div>
   )
