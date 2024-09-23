@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import ShopCard from "./ShopCard";
+import { FaFilter } from "react-icons/fa";
 
 const Manu = () => {
   const [menu, setMenu] = useState([]);
   const [filterCetagoryItem, setFilterCetagoryItem] = useState([]);
   const [selectCategory, setSlectCategory] = useState("all");
   const [shortOptions, setShortOptions] = useState("defult");
+  const [currentPage,setCurrentPage] = useState(1)
+  const [itemParPage] = useState(8)
 
   // data loading
   useEffect(() => {
@@ -36,43 +39,57 @@ const Manu = () => {
 
     setFilterCetagoryItem(filtered);
     setSlectCategory(category);
+    setCurrentPage(1)
   };
 
   //   show all data function
   const showAll = () => {
     setFilterCetagoryItem(menu);
     setSlectCategory("all");
+    setCurrentPage(1)
   };
 
   //  shorted data
-  const handleShortingChange = (option) => {
+  const handleSortChange = (option) => {
     setShortOptions(option);
-    let shortedItem = [...filterItem];
 
-    // logic
+    // Logic for sorting based on the selected option
+    let sortedItems = [...filterCetagoryItem];
+
     switch (option) {
       case "A-Z":
-        shortedItem.sort((a, b) => a.name.localeCompare(b.name));
+        sortedItems.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case "Z-A":
-        shortedItem.sort((a, b) => b.name.localeCompare(a.name));
+        sortedItems.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case "low-to-high":
-        shortedItem.sort((a, b) => a.price - b.price);
+        sortedItems.sort((a, b) => a.price - b.price);
         break;
       case "high-to-low":
-        shortedItem.sort((a, b) => b.price - a.price);
+        sortedItems.sort((a, b) => b.price - a.price);
         break;
       default:
+        // Do nothing for the "default" case
         break;
     }
 
-    setFilterCetagoryItem(shortedItem);
+    setFilterCetagoryItem(sortedItems);
+    setCurrentPage(1)
+  
   };
 
+  // pagination logic
+  const indexOfListItem = currentPage * itemParPage
+  const indexOfFristItem = indexOfListItem - itemParPage
+  const currentItem = filterCetagoryItem.slice(indexOfFristItem,indexOfListItem)
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
+
+
   return (
-    <div className="">
-      <div className="secetion-container bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
+    <div className="secetion-container">
+      <div className=" bg-gradient-to-r from-0% from-[#FAFAFA] to-[#FCFCFC] to-100%">
         <div className="py-48 flex items-center justify-center">
           {/* texts */}
           <div className=" px-4 space-y-7 text-center">
@@ -92,7 +109,7 @@ const Manu = () => {
       </div>
 
       {/* container */}
-      <div className="secetion-container flex flex-col md:flex-row md:space-x-40">
+      <div className="flex flex-col md:flex-row md:space-x-40">
         {/* react tab */}
         <div className="w-full md:flex-1 py-8">
           <Tabs>
@@ -112,15 +129,44 @@ const Manu = () => {
             </TabList>
           </Tabs>
         </div>
-        <div  className=" py-8">
-            <input className="border" type="text" />
+        <div className="py-8">
+           <div className="flex w-full">
+             <div className="p-2 bg-black">
+               <FaFilter className="text-white w-4 h-4"/>
+             </div>
+             {/* shorted filter */}
+             <select
+              id="sort"
+              onChange={(e) =>handleSortChange(e.target.value)}
+              className="bg-black text-white px-2 py-1 rounded-sm"
+              >
+                <option value="default">Default</option>
+                <option value="A-Z">A-Z</option>
+                <option value="Z-A">Z-A</option>
+                <option value="low-to-high">Low To High</option>
+                <option value="high-to-low">High To Low</option>
+             </select>
+           </div>
         </div>
       </div>
 
-      <div className="grid secetion-container grid-cols-1 lg:grid-cols-4 md:grid-cols-4 gap-4">
-        {filterCetagoryItem.map((item, index) => (
+      <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-4 gap-4">
+        {currentItem.map((item, index) => (
           <ShopCard key={index} item={item} />
         ))}
+      </div>
+
+      <div className="flex justify-center my-8">
+           {
+            Array.from({length:Math.ceil(filterCetagoryItem.length / itemParPage)}).map((_,index)=>(
+              <button key={index + 1}
+               onClick={() =>paginate(index + 1)}
+               className={`mx-1 px-3 py-1 rounded-full ${currentPage === index +1 ? "bg-green text-white" : 'bg-gray-200'}`}
+              >
+                {index + 1}
+              </button>
+            ))
+           }
       </div>
     </div>
   );
