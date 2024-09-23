@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../public/logo.png";
 import { FiAward, FiPhoneCall } from "react-icons/fi";
+import { FaUser } from "react-icons/fa6";
+import Login from "./Login";
+import { AuthContext } from "../context/AuthProvider";
+import Profile from './Profile';
+
 
 const Navbar = () => {
     const [stacky,setStacky] = useState(false)
+    const {user} = useContext(AuthContext)
     
     
     // handle scroll function
@@ -143,9 +149,14 @@ const Navbar = () => {
             </div>
           </label>
           {/* contact btn */}
-          <a className="btn bg-green mx-3 rounded-full text-white font-bold">
-            <FiPhoneCall /> Contact{" "}
-          </a>
+         {
+          user ? <Profile user={user} />: <a 
+          onClick={()=>document.getElementById('my_modal_3').showModal()}
+         className="btn bg-green mx-3 rounded-full text-white font-bold">
+           <FaUser/> Login
+         </a>
+         }
+          <Login/>
         </div>
       </div>
     </header>

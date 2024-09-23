@@ -6,6 +6,10 @@ import { Main } from "../Layout/Main/Main";
 import { ErrorElement } from "../components/ErrorElement";
 import { Home } from "../pages/Home";
 import Manu from "../pages/shop/Manu";
+import Register from "../components/Register";
+import ProvateRoute from "../privateRoute/ProvateRoute";
+import UpdateUserProfile from "../pages/Deshboard/UpdateUserProfile";
+
 
 
 
@@ -22,8 +26,16 @@ const router = createBrowserRouter([
         {
           path:'/menu',
           element:<Manu/>
+        },
+        {
+          path:"/update-profile",
+          element:<UpdateUserProfile/>
         }
       ]
+    },
+    {
+      path:'/singUp',
+      element:<Register/>
     }
       ])
 
