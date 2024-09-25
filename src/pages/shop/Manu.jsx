@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Tab, Tabs, TabList } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import ShopCard from "./ShopCard";
 import { FaFilter } from "react-icons/fa";
+import Cards from "../Cards";
 
 const Manu = () => {
   const [menu, setMenu] = useState([]);
@@ -17,7 +17,7 @@ const Manu = () => {
     //  data loading from backEnd
     const fetchData = async () => {
       try {
-        const response = await fetch("/menu.json");
+        const response = await fetch("http://localhost:6001/menu");
         const data = await response.json();
         // console.log(data);
         setMenu(data);
@@ -152,7 +152,7 @@ const Manu = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-4 gap-4">
         {currentItem.map((item, index) => (
-          <ShopCard key={index} item={item} />
+          <Cards key={index} item={item}/>
         ))}
       </div>
 

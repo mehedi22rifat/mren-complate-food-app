@@ -9,6 +9,7 @@ import Manu from "../pages/shop/Manu";
 import Register from "../components/Register";
 import ProvateRoute from "../privateRoute/ProvateRoute";
 import UpdateUserProfile from "../pages/Deshboard/UpdateUserProfile";
+import CardPage from "../pages/shop/cardPage";
 
 
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
         {
           path:'/menu',
           element:<Manu/>
+        },
+        {
+          path:'/card-page',
+          element:<CardPage/>
         },
         {
           path:"/update-profile",

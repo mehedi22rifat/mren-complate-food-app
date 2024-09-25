@@ -55,3 +55,13 @@ header{
      70%,80%  {transform: rotate(270deg)}
      95%,100% {transform: rotate(360deg)}
   }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+

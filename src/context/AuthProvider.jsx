@@ -29,13 +29,13 @@ const AuthProvider = ({children}) => {
 
     // singUp with gmail
     const singUpWithGmail = () =>{
-        setLoading(true)
+        // setLoading(true)
         return signInWithPopup(auth,googleProvider)
     }
 
     // singUp with github
     const singUpWithGithub = () =>{
-        setLoading(true)
+        // setLoading(true)
         return signInWithPopup(auth,githubProvider)
     }
 

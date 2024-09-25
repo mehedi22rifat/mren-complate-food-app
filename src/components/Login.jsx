@@ -50,7 +50,7 @@ const Login = () => {
           const user = result.user;
           // console.log(user)
           toast.success("Login successfull!")
-          // document.getElementById('my_modal_3').close();
+          document.getElementById('my_modal_3').close();
           navigate(from,{replace:true})
         })
         .catch((error) => {
