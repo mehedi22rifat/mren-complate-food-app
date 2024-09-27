@@ -34,7 +34,7 @@ const handleAddToCard = (item)=>{
     )
     .then(res=>res.json())
     .then(data => {
-      if(data.insertedId){
+      if(data){
         Swal.fire({
           position: "center",
           icon: "success",

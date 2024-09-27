@@ -35,6 +35,8 @@ const Navbar = () => {
      }
     },[])
 
+    // user mdmehedi1111bd
+    // pass  skRki2h4brU233vs
 
   const navItem = (
     <>
@@ -133,7 +135,7 @@ const Navbar = () => {
             </svg>
           </button>
           {/* add product icon */}
-         <Link to={'card-page'}>
+         <Link to={'/cardPage'}>
          <label
             tabIndex={0}
             className="btn btn-ghost btn-circle hidden lg:flex items-center justify-center mr-3"
