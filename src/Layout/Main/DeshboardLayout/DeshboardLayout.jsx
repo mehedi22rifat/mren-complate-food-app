@@ -37,7 +37,7 @@ const DeshboardLayout = () => {
           <div className="flex items-center justify-between mx-4">
           <label
             htmlFor="my-drawer-2"
-            className="btn btn-primary drawer-button lg:hidden"
+            className="btn btn-primary drawer-button lg:hidden md:hidden"
           >
             <MdDashboardCustomize />
           </label>

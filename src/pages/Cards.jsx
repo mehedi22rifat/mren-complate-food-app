@@ -34,18 +34,27 @@ const handleAddToCard = (item)=>{
     )
     .then(res=>res.json())
     .then(data => {
-      if(data){
+      console.log(data)
+      if(!data.message){
         Swal.fire({
           position: "center",
           icon: "success",
           title: "Your work has been saved",
           showConfirmButton: false,
           timer: 1500
-        });
+        })
       
+      }else{
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title:"Product already exsisting cart",
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
   
-      console.log(data)
+      // console.log(data.message)
     })
    
   }

@@ -2,6 +2,7 @@
 import React, { useContext } from 'react'
 import { AuthContext } from '../context/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const Profile = ({user}) => {
 
@@ -60,6 +61,9 @@ const Profile = ({user}) => {
           </li>
           <li>
             <a>Setting</a>
+          </li>
+          <li>
+            <Link to={'/deshboard'}><a>Deshboard</a> </Link>
           </li>
           <li>
             <a onClick={handleLogout}>Logout</a>

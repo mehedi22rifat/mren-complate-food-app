@@ -99,6 +99,7 @@ const CardPage = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data) {
+              console.log(data)
               refetch();
               Swal.fire({
                 title: "Deleted!",
