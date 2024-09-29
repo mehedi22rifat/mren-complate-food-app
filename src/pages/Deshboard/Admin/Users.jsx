@@ -1,25 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import toast, { Toaster } from "react-hot-toast";
+import Swal from 'sweetalert2'
 
 const Users = () => {
+  const axiosSecure = useAxiosSecure()
   const { refetch, data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:6001/users`);
-      return res.json();
+      const res = await axiosSecure.get(`/users`);
+     return res.data;
     },
   });
 
 
   // handleMakeAdmin
-  const handleMakeAdmin = () =>{
-
+  const handleMakeAdmin = (user) =>{
+    //  console.log(user)
+    axiosSecure.patch(`/users/admin/${user?._id}`)
+    .then((res) => {
+      toast.success(`${user.name} is now admin`);
+      refetch();
+    });
   }
 
   // handleDeleteUser
-  const handleDeleteUser = () =>{
-    
+  const handleDeleteUser = (user) =>{
+    axiosSecure.delete(`/users/${user._id}`)
+    .then((res) =>{
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${user.name} is removed from database`,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      refetch();
+    })
   }
 
   console.log(users);
@@ -78,6 +97,7 @@ const Users = () => {
           </table>
         </div>
       </div>
+      <Toaster/>
     </div>
   );
 };

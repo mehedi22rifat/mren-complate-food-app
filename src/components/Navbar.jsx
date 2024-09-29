@@ -3,15 +3,16 @@ import logo from "../../public/logo.png";
 import { FiAward, FiPhoneCall } from "react-icons/fi";
 import { FaUser } from "react-icons/fa6";
 import Login from "./Login";
-import { AuthContext } from "../context/AuthProvider";
+// import { AuthContext } from "../context/AuthProvider";
 import Profile from './Profile';
 import { Link } from "react-router-dom";
 import useCard from "../hooks/useCard";
+import useAuth from "../hooks/useAuth";
 
 
 const Navbar = () => {
     const [stacky,setStacky] = useState(false)
-    const {user} = useContext(AuthContext)
+    const {user} = useAuth();
 
     // get use query
     const [cart,refetch] = useCard()

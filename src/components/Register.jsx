@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import Login from "./Login";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../context/AuthProvider";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
   const {
@@ -16,8 +18,9 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+  const axiosPublic = useAxiosPublic();
 
-  const { creatUser,singUpWithGmail } = useContext(AuthContext);
+  const { creatUser,singUpWithGmail, userProfileUpdate } = useAuth();
 
   const onSubmit = (data) => {
     const email = data.email;
@@ -25,9 +28,19 @@ const Register = () => {
     creatUser(email, password)
       .then((result) => {
         const user = result.user;
-        toast.success("Creat User Successfull!");
-        // document.getElementById('my_modal_3').close();
-        navigate(from,{replace:true})
+        userProfileUpdate(data.email,data.photoURL).then(() =>{
+          const userInfo ={
+            name:data.name,
+            email:data.email,
+          }
+          // axios public hook
+          axiosPublic.post('/users',userInfo)
+          .then((response) => {
+            // console.log(response);
+            toast.success("Creat User Successfull!");
+            navigate(from, { replace: true });
+          });
+        })
       })
       .catch((error) => {
         console.log(error.message);
@@ -43,9 +56,16 @@ const Register = () => {
     singUpWithGmail()
     .then((result) => {
       const user = result.user;
-      toast.success("Login successfull!")
-      // document.getElementById('my_modal_3').close();
+      const userInfo = {
+        name:result?.user?.displayName,
+        email:result?.user?.email
+      }
+     axiosPublic.post('/users',userInfo)
+     .then((response) =>{
+      toast.success('Login successfull!')
       navigate(from,{replace:true})
+     })
+
     })
     .catch((error) => {
         console.log(error.message)
@@ -126,6 +146,12 @@ const Register = () => {
                 >
                   <input
                     className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                    type="name"
+                    placeholder="Name"
+                    {...register("name")}
+                  />
+                  <input
+                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                     type="email"
                     placeholder="Email"
                     {...register("email")}

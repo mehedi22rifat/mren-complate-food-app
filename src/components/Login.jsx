@@ -1,9 +1,11 @@
 import { FaFacebookF, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form"
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import {useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
+import axios from "axios";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
 
@@ -13,13 +15,14 @@ const Login = () => {
         formState: { errors },
       } = useForm()
 
-    const {singUpWithGmail,loginUser} = useContext(AuthContext)
+    const {singUpWithGmail,loginUser} = useAuth();
     const [errorsMessage,setErrprsMessage] = useState('')
 
     // location
     const location = useLocation()
     const navigate = useNavigate()
     const from = location.state?.from?.pathname || "/";
+    const axiosPublic = useAxiosPublic();
 
     
       const onSubmit = (data) => {
@@ -30,9 +33,16 @@ const Login = () => {
         .then(result =>{
             const user = result.user;
             console.log(user)
-            toast.success('Login Successfull!')
-            document.getElementById('my_modal_3').close();
-            navigate(from,{replace:true})
+            const userInfo ={
+              name:data.name,
+              email:data.email,
+            }
+            axiosPublic.post('/users',userInfo)
+            .then((response) => {
+              // console.log(response);
+              toast.success("Creat User Successfull!");
+              navigate(from, { replace: true });
+            });
         })
         .catch(error =>{
             const errorsMessage = error.message;
@@ -49,9 +59,16 @@ const Login = () => {
         .then((result) => {
           const user = result.user;
           // console.log(user)
-          toast.success("Login successfull!")
-          document.getElementById('my_modal_3').close();
-          navigate(from,{replace:true})
+          const userInfo = {
+            name:result?.user?.displayName,
+            email:result?.user?.email
+          }
+          axiosPublic.post('/users',userInfo)
+          .then((response) =>{
+           toast.success('Login successfull!')
+           document.getElementById('my_modal_3').close();
+           navigate(from,{replace:true})
+          })
         })
         .catch((error) => {
             toast.error(error)
