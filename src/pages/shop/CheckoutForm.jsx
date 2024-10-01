@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPaypal } from "react-icons/fa6";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from './../../hooks/useAxiosSecure';
 
 // eslint-disable-next-line react/prop-types
 const CheckoutForm = ({ price, cart }) => {
@@ -11,6 +13,25 @@ const CheckoutForm = ({ price, cart }) => {
   const [cardError, setCardError] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+
+
+  useEffect(() =>{
+    // error fiexd
+    if(typeof price !== 'number' || price<1){
+      console.log('price is not a number or zeor')
+      return;
+    }
+    axiosSecure.post(`/create-payment-intent`,{price})
+    .then((res)=>{
+      // console.log(res.data.clientSecret);
+      setClientSecret(res.data.clientSecret)
+    })
+  },[price,axiosSecure])
+
+
+
 
   const handleSubmit = async (event) => {
     // Block native form submission.
@@ -45,7 +66,7 @@ const CheckoutForm = ({ price, cart }) => {
       setCardError("success");
     }
 
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+    const { paymentIntent, error:confirmError } = await stripe.confirmCardPayment(
         clientSecret,
          { 
             payment_method: {
