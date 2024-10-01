@@ -12,18 +12,18 @@ const CheckoutForm = ({ price, cart }) => {
   const elements = useElements();
   const [cardError, setCardError] = useState();
   const [clientSecret, setClientSecret] = useState("");
-  const { user } = useAuth();
+  const { user} = useAuth();
   const axiosSecure = useAxiosSecure();
 
 
 
   useEffect(() =>{
     // error fiexd
-    if(typeof price !== 'number' || price<1){
-      console.log('price is not a number or zeor')
+    if(typeof price !== 'number' || price < 1){
+      console.log('price is not a number or less then 1')
       return;
     }
-    axiosSecure.post(`/create-payment-intent`,{price})
+    axiosSecure.post("/create-payment-intent",{price})
     .then((res)=>{
       // console.log(res.data.clientSecret);
       setClientSecret(res.data.clientSecret)
@@ -66,21 +66,47 @@ const CheckoutForm = ({ price, cart }) => {
       setCardError("success");
     }
 
-    const { paymentIntent, error:confirmError } = await stripe.confirmCardPayment(
-        clientSecret,
-         { 
-            payment_method: {
+    const {paymentIntent, error:confirmError} = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
           card: card,
           billing_details: {
-            name: user?.displayName || "anonymous",
-            email: user?.email || "nuknown",
+            name: user?.displayName || 'anonymous',
+            email: user?.email || 'unknow',
           },
         },
+      },
+    );
+
+    if(confirmError){
+      console.log(confirmError)
+    }
+    // console.log(paymentIntent)
+    if(paymentIntent.status === "succeeded"){
+      // console.log(paymentIntent.id)
+      setCardError(`Your transaction id: ${paymentIntent.id}`);
+      // payment info data
+      const paymentInfo = {
+        transactionId: paymentIntent.id,
+        email: user?.email,
+        price,
+        quentity:cart.length,
+        status:"Order Pending",
+        itemName:cart.map(item => item.name),
+        cartItems:cart.map(item =>item._id),
+        menuItems:cart.map(item => item.menuItemId)
+      }
+      // console.log(paymentInfo)
+      // post data in database
+      axiosSecure.post('/payments',paymentInfo)
+      .then(res =>{
+        console.log(res.data)
+        alert('payment successfully!')
       })
-      .then(function (result) {
-        // Handle result.error or result.paymentIntent
-      });
-  };
+    }
+
+  }
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-center gap-7">
