@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
-import { FaEdit, FaQuestionCircle, FaShoppingBag, FaUser } from "react-icons/fa";
+import { FaCloudUploadAlt, FaEdit, FaQuestionCircle, FaShoppingBag, FaUser } from "react-icons/fa";
 import { FaCartShopping, FaFolderPlus, FaLocationArrow, FaRegUser, FaUsers } from "react-icons/fa6";
 import logo from '../../../../public/logo.png'
 import useAdmin from './../../../hooks/useAdmin';
@@ -78,10 +78,10 @@ const DeshboardLayout = () => {
           <Link to={'/deshboard'}><FaShoppingBag /> Manage Booking</Link>
           </li>
            <li>
-          <Link to={'/deshboard'}><FaFolderPlus /> Add Menu</Link>
+          <Link to={'/deshboard/add-menu'}><FaFolderPlus /> Add Menu</Link>
           </li>
-           <li>
-          <Link to={'/deshboard'}><FaEdit /> Manage Item</Link>
+          <li>
+          <Link to={'/deshboard/manage-item'}><FaEdit /> Manage Item</Link>
           </li>
           <li>
             <Link to={'/deshboard/users'}><FaUsers /> All Users</Link>
@@ -93,7 +93,13 @@ const DeshboardLayout = () => {
           }
         </ul>
       </div>
-    </div> : (loading ? <Register/>: <div className="h-screen flex justify-center items-center"><Link to="/"><button className="btn bg-green text-white">Back to Home</button></Link></div>)
+    </div> : (loading ? <Register/>: <div className="h-screen flex flex-col justify-center items-center">
+                                            <h1 className="text-xl font-bold my-10"> Deshboard can access only admin</h1> <hr></hr>
+                                          <Link to="/">
+                                              <button className="btn bg-green text-white">Back to Home</button>
+                                          </Link>
+                                           
+                                    </div>)
      }
     </div>
   );

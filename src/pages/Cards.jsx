@@ -2,9 +2,10 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types"; // ES6
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {FaHeart} from 'react-icons/fa'
-import { AuthContext } from './../context/AuthProvider';
 import Swal from 'sweetalert2'
-import useCard from "../hooks/useCard";
+import useCard from "../hooks/useCard"
+import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 
 
@@ -12,49 +13,41 @@ const Cards = ({ item }) => {
   const {_id,price,name,recipe,category,image} = item;
 
 const [isHeartFillter,setHeartFilter] = useState(false)
-const {user} = useContext(AuthContext)
+const {user} = useAuth()
 const navigate = useNavigate()
 const location = useLocation()
 const [refetch] = useCard()
 
 
+
 // add to card
-const handleAddToCard = (item)=>{
+const handleAddToCard = item =>{
   // console.log(item)
   if(user && user?.email){
     const cardItem = {menuItemId:_id,name,price,recipe,quantity:1,category,email:user.email,image}
     // console.log(cardItem)
-    fetch('http://localhost:6001/cards',{
-        method:"POST",
-        headers:{
-          'content-type':'application/json'
-        },
-        body:JSON.stringify(cardItem)
-    }
-    )
-    .then(res=>res.json())
-    .then(data => {
-      console.log(data)
-      if(!data.message){
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Your work has been saved",
+   axios.post('http://localhost:6001/cards', cardItem)
+    .then(response=>{
+      // console.log(response);
+      Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Food added on the cart.',
           showConfirmButton: false,
           timer: 1500
         })
-      
-      }else{
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title:"Product already exsisting cart",
-          showConfirmButton: false,
-          timer: 1500
-        })
-      }
-  
-      // console.log(data.message)
+      refetch();
+    })
+    .catch(error =>{
+      const errorMessage = error.response.data.message;
+      // console.log(errorMessage)
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title:`${errorMessage}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
    
   }

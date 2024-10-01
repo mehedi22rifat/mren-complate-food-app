@@ -15,7 +15,7 @@ const Navbar = () => {
     const {user} = useAuth();
 
     // get use query
-    const [cart,refetch] = useCard()
+    const [cart,refetch] = useCard();
 
     // console.log(cart)
     

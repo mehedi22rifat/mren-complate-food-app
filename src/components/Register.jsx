@@ -28,6 +28,7 @@ const Register = () => {
     creatUser(email, password)
       .then((result) => {
         const user = result.user;
+        console.log(user)
         userProfileUpdate(data.email,data.photoURL).then(() =>{
           const userInfo ={
             name:data.name,
@@ -63,8 +64,9 @@ const Register = () => {
      axiosPublic.post('/users',userInfo)
      .then((response) =>{
       toast.success('Login successfull!')
-      navigate(from,{replace:true})
+      // navigate(from,{replace:true})
      })
+     navigate(from,{replace:true})
 
     })
     .catch((error) => {

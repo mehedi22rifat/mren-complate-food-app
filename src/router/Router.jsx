@@ -13,7 +13,10 @@ import CardPage from "../pages/shop/cardPage";
 import DeshboardLayout from "../Layout/Main/DeshboardLayout/DeshboardLayout";
 import Deshboard from "../pages/Deshboard/Admin/Deshboard";
 import Users from "../pages/Deshboard/Admin/Users";
-
+import AddMenu from "../pages/Deshboard/Admin/AddMenu";
+import ManageItem from "../pages/Deshboard/Admin/ManageItem";
+import UpdateMenu from "../pages/Deshboard/Admin/UpdateMenu";
+import Payment from "../pages/shop/Payment";
 
 
 
@@ -29,15 +32,19 @@ const router = createBrowserRouter([
         },
         {
           path:'/menu',
-          element:<Manu/>
+          element: <Manu/>
         },
         {
           path:'/cardPage',
-          element:<ProvateRoute><CardPage/></ProvateRoute>
+          element:<ProvateRoute><CardPage/> </ProvateRoute>
         },
         {
           path:"/update-profile",
           element:<UpdateUserProfile/>
+        },
+        {
+          path:'/process-chekout',
+          element:<Payment/>
         }
       ]
     },
@@ -55,6 +62,19 @@ const router = createBrowserRouter([
         {
           path:'users',
           element:<Users/>
+        },
+        {
+          path:'add-menu',
+          element:<AddMenu/>
+        },
+        {
+          path:"manage-item",
+          element:<ManageItem/>
+        },
+        {
+          path:'update-menu/:id',
+          element:<UpdateMenu/>,
+          loader: ({params}) => fetch(`http://localhost:6001/menu/${params.id}`)
         }
       ]
     }

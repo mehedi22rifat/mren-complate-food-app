@@ -41,8 +41,11 @@ const Login = () => {
             .then((response) => {
               // console.log(response);
               toast.success("Creat User Successfull!");
-              navigate(from, { replace: true });
+              // document.getElementById('my_modal_3').close();
+              // navigate(from, { replace: true });
             });
+            document.getElementById('my_modal_3').close();
+              navigate(from, { replace: true });
         })
         .catch(error =>{
             const errorsMessage = error.message;
@@ -66,9 +69,11 @@ const Login = () => {
           axiosPublic.post('/users',userInfo)
           .then((response) =>{
            toast.success('Login successfull!')
-           document.getElementById('my_modal_3').close();
-           navigate(from,{replace:true})
+          //  document.getElementById('my_modal_3').close();
+          //  navigate(from, { replace: true });
           })
+          document.getElementById('my_modal_3').close();
+          navigate(from, { replace: true });
         })
         .catch((error) => {
             toast.error(error)

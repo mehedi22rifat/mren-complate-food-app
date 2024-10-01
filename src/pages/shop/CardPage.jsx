@@ -6,10 +6,11 @@ import { AuthContext } from "../../context/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const CardPage = () => {
   const [cart, refetch] = useCard();
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [cartItems, setCardItems] = useState([]);
 
   // total price count
@@ -80,6 +81,7 @@ const CardPage = () => {
     return total + calculateTotalPrice(item)
   },0)
   const orderTotal= subTotalPrice;
+
 
   // delete ta item in card page
   const handleDelete = (item) => {
@@ -212,9 +214,11 @@ const CardPage = () => {
               Total Price:{" "}
               <span id="total-price">${orderTotal.toFixed(2)}</span>
             </p>
-            <button className="btn btn-md bg-green text-white px-8 py-1">
+           <Link to={'/process-chekout'}>
+           <button className="btn btn-md mt-4 bg-green text-white px-8 py-1">
               Procceed to Checkout
             </button>
+           </Link>
           </div>
         </div>
       </div> : <div className="text-center my-28">
