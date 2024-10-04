@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 
 const ManageItem = () => {
@@ -11,7 +12,32 @@ const ManageItem = () => {
   //  console.log(menu)
 
    const axiosSecure = useAxiosSecure()
+  //  pagaination
+  const [items, setItems] = useState([]); // State to store the JSON data
+  const [currentPage, setCurrentPage] = useState(0); // Pagination state
+  const itemsPerPage = 10; // Number of items per page
 
+  console.log(menu)
+   // Calculate the start and end index based on the current page
+   const startIndex = currentPage * itemsPerPage;
+   const endIndex = startIndex + itemsPerPage;
+
+    // Get the items for the current page
+  const currentItems = menu.slice(startIndex, endIndex);
+
+  // Function to go to the next page
+  const handleNext = () => {
+    if ((currentPage + 1) * itemsPerPage < menu.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Function to go to the previous page
+  const handlePrev = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
 
 //  handleDelete item
@@ -62,7 +88,8 @@ const ManageItem = () => {
             </tr>
           </thead>
           <tbody>
-            {menu.map((item, index) => (
+           {
+             currentItems.map((item, index) => (
               <tr key={index}>
                 <th>{index + 1}</th>
                 <td>
@@ -92,13 +119,51 @@ const ManageItem = () => {
                   </button>
                 </td>
               </tr>
-            ))}
-            {/* row 1 */}
+             ))
+           }
+           {/* <div className="grid grid-cols-1 gap-3 w-1/2 text-center mb-5">
+        {currentItems.map((item) => (
+          <div key={item._id} className="p-4 bg-gray-100 rounded-md shadow-md">
+            {item.name}
+          </div>
+        ))}
+      </div> */}
           </tbody>
         </table>
       </div>
     </div>
+{/*                  */}
+    <div>
+    <div className="flex flex-col items-center py-10">
+
+      <div className="flex space-x-4">
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 0}
+          className={`px-4 py-2 bg-green text-white font-semibold rounded-md transition ${
+            currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'bg-green'
+          }`}
+        >
+          Prev
+        </button>
+        <button
+          onClick={handleNext}
+          disabled={(currentPage + 1) * itemsPerPage >= menu.length}
+          className={`px-4 py-2 bg-green text-white font-semibold rounded-md transition ${
+            (currentPage + 1) * itemsPerPage >= menu.length
+              ? 'opacity-50 cursor-not-allowed'
+              : 'hover:bg-green'
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    </div>
   </div>
+
+
   )
 }
 

@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import { MdDashboard, MdDashboardCustomize } from "react-icons/md";
 import { FaCloudUploadAlt, FaEdit, FaQuestionCircle, FaShoppingBag, FaUser } from "react-icons/fa";
 import { FaCartShopping, FaFolderPlus, FaLocationArrow, FaRegUser, FaUsers } from "react-icons/fa6";
-import logo from '../../../../public/logo.png'
+
 import useAdmin from './../../../hooks/useAdmin';
 import useAuth from "../../../hooks/useAuth";
 import Register from './../../../components/Register';
@@ -66,7 +66,7 @@ const DeshboardLayout = () => {
           {/* Sidebar content here */}
           <li>
           <Link to={'/deshboard'} className="flex justify-start mb-2">
-             <img src={logo} className="w-20" alt="" />
+             <img src="/logo.png" className="w-20" alt="" />
              <span className="badge badge-primary">Admin</span>
           </Link>
           </li>

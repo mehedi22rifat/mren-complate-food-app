@@ -1,5 +1,5 @@
 import React from "react";
-import bannerImg from "../../public/images/home/banner.png";
+
 
 const Banner = () => {
   return (
@@ -8,7 +8,7 @@ const Banner = () => {
 
         {/* img */}
         <div className="md:w-1/2">
-          <img src={bannerImg} alt="" />
+          <img src="/images/home/banner.png" alt="" />
           <div className="flex flex-col md:flex-row items-center justify-around -mt-14 gap-4">
             <div className="bg-white px-3 py-2 rounded-2xl flex items-center gap-3 shadow-sm w-64">
               <img src="/images/home/b-food1.png" alt=""  className="rounded-2xl"/>

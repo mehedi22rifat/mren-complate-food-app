@@ -17,6 +17,7 @@ import AddMenu from "../pages/Deshboard/Admin/AddMenu";
 import ManageItem from "../pages/Deshboard/Admin/ManageItem";
 import UpdateMenu from "../pages/Deshboard/Admin/UpdateMenu";
 import Payment from "../pages/shop/Payment";
+import Order from "../pages/shop/Order";
 
 
 
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
         {
           path:'/process-chekout',
           element:<Payment/>
+        },
+        {
+          path:'/order',
+          element:<Order/>
         }
       ]
     },

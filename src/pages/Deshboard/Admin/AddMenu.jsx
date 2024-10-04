@@ -3,7 +3,7 @@ import { FaUtensils } from "react-icons/fa";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-
+import { Typewriter } from 'react-simple-typewriter'
 const AddMenu = () => {
   
     const { register, handleSubmit, reset } = useForm();
@@ -12,7 +12,8 @@ const AddMenu = () => {
 
     // image hosting key
     const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-    // // image hosting api 
+    // // image hosting api import CheckoutForm from './../../shop/CheckoutForm';
+
     const image_hosting_api = `https://api.imgbb.com/1/upload?expiration=600&key=${image_hosting_key}`
   
   
@@ -59,9 +60,27 @@ const AddMenu = () => {
 
   return (
     <div className="w-full md:w-[870px] px-4 mx-auto">
-      <h2 className="text-2xl font-semibold my-4">
+      {/* <h2 className="text-2xl font-semibold my-4">
         Upload A New <span className="text-green">Menu Item</span>
-      </h2>
+      </h2> */}
+
+      <h1 className="text-2xl font-semibold my-4 mb-10" style={{ paddingTop: '5rem', margin: 'auto 0', fontWeight: 'normal' }}>
+      Upload A New{' '}
+        <span style={{ color: 'green', fontWeight: 'bold' }}>
+          {/* Style will be inherited from the parent element */}
+          <Typewriter
+            words={['Menu Item', 'Menu Item']}
+            loop={2}
+            cursor
+            cursorStyle='_'
+            typeSpeed={70}
+            deleteSpeed={50}
+            delaySpeed={1000}
+          
+          
+          />
+        </span>
+      </h1>
 
       {/* from here */}
 

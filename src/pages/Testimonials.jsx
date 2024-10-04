@@ -1,13 +1,12 @@
 import React from 'react'
 import { FaStar } from "react-icons/fa";
-import testmonials from '../../public/images/home/testimonials/testimonials.png'
 
 const Testimonials = () => {
     return (
         <div className="secetion-container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
             <div className="md:w-1/2">
-              <img src={testmonials} alt="testmonials image" />
+              <img src="images/home/testimonials/testimonials.png" alt="testmonials image" />
             </div>
             <div className="md:w-1/2">
               <div className="text-left md:w-4/5">

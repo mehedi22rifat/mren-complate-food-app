@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import logo from "../../public/logo.png";
+
 import { FiAward, FiPhoneCall } from "react-icons/fi";
 import { FaUser } from "react-icons/fa6";
 import Login from "./Login";
@@ -111,7 +111,7 @@ const Navbar = () => {
             </ul>
           </div>
           <a>
-            <img src={logo} alt="logo png" />
+            <img src="/logo.png" alt="logo png" />
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">

@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { FaPaypal } from "react-icons/fa6";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from './../../hooks/useAxiosSecure';
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const CheckoutForm = ({ price, cart }) => {
@@ -14,6 +16,7 @@ const CheckoutForm = ({ price, cart }) => {
   const [clientSecret, setClientSecret] = useState("");
   const { user} = useAuth();
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate()
 
 
 
@@ -101,8 +104,15 @@ const CheckoutForm = ({ price, cart }) => {
       // post data in database
       axiosSecure.post('/payments',paymentInfo)
       .then(res =>{
-        console.log(res.data)
-        alert('payment successfully!')
+        // console.log(res.data)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: 'payment successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate('/order')
       })
     }
 
